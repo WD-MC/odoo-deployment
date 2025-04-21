@@ -1,0 +1,64 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for build
+- name: Create kubernetes directory
+  file:
+    path: /home/{{ ansible_user }}/kubernetes
+    state: directory
+    mode: '0755'
+
+- name: Copy Kubernetes manifests
+  copy:
+    src: "{{ playbook_dir }}/../../kubernetes/{{ item }}"
+    dest: "/home/{{ ansible_user }}/kubernetes/"
+    mode: '0644'
+  with_items:
+    - deployment.yaml
+    - service.yaml
+    - postgres.yaml
+    - secrets.yaml
+    - pvc.yaml
+    - configmap.yaml
+
+- name: Apply storage resources
+  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/pvc.yaml
+  register: pvc_result
+  changed_when: pvc_result.rc == 0
+
+- name: Apply ConfigMap
+  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/configmap.yaml
+  register: cm_result
+  changed_when: cm_result.rc == 0
+
+- name: Apply secrets
+  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/secrets.yaml
+  register: secrets_result
+  changed_when: secrets_result.rc == 0
+
+- name: Deploy PostgreSQL
+  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/postgres.yaml
+  register: pg_result
+  changed_when: pg_result.rc == 0
+
+- name: Wait for PostgreSQL deployment to be ready
+  shell: kubectl wait --for=condition=available deployment/postgres --timeout=300s
+  register: pg_wait_result
+  changed_when: pg_wait_result.rc == 0
+
+- name: Deploy Odoo
+  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/deployment.yaml
+  register: odoo_result
+  changed_when: odoo_result.rc == 0
+
+- name: Apply Odoo service
+  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/service.yaml
+  register: svc_result
+  changed_when: svc_result.rc == 0
+
+- name: Get NodePort for Odoo service
+  shell: kubectl get svc odoo-service -o jsonpath='{.spec.ports[0].nodePort}'
+  register: nodeport
+
+- name: Show access URL
+  debug:
+    msg: "Odoo est accessible à l'adresse http://{{ ansible_host }}:{{ nodeport.stdout }}"

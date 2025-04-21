@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: odoo-config
+data:
+  odoo.conf: |
+    [options]
+    addons_path = /mnt/extra-addons
+    data_dir = /var/lib/odoo
+    admin_passwd = admin_password
+    db_host = postgres-service
+    db_port = 5432
+    db_user = odoo
+    db_password = odoo_password
+    db_name = odoo
+    list_db = True

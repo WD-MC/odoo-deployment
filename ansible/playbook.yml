@@ -1,0 +1,5 @@
+---
+- name: Deploy Odoo to Kubernetes
+  hosts: servers
+  roles:
+    - build

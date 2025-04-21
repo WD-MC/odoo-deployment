@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone') {
+            steps {
+                checkout scm
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t odoo-pregodi:latest -f Dockerfile .'
+            }
+        }
+        
+        stage('Push to Minikube') {
+            steps {
+                sh 'eval $(minikube docker-env) && docker build -t odoo-pregodi:latest -f Dockerfile .'
+            }
+        }
+        
+        stage('Deploy with Ansible') {
+            steps {
+                sh 'cd ansible && ansible-playbook -i inventory.ini playbook.yml'
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Déploiement réussi!'
+        }
+        failure {
+            echo 'Échec du déploiement!'
+        }
+    }
+}
