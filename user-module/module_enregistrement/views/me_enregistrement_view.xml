@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- VIEWS -->
+
+
+    <record id="me_enregistrement_list" model="ir.ui.view">
+        <field name="name">me.enregistrement.list</field>
+        <field name="model">me.enregistrement</field>
+        <field name="priority">1000</field>
+        <field name="arch" type="xml">
+            <list class="o_me_enregistrement"
+                  string="Enregistrements"
+                  sample="1"
+            >
+
+                <field name="model_application_number" decoration-success="stage_code"/>
+                 <field name="company_name" string="Compagnie" readonly="1" decoration-bf="1"/>
+
+                <field name="name" string="Nom" readonly="1" decoration-bf="1"/>
+
+                <field name="telephone"
+                       decoration-bf="1"
+                       optional="show"/>
+
+                <field name="email"
+                       decoration-bf="1"
+                       optional="show"/>
+                <!--<field name="company_name"/>
+                <field name="company_registration_number"/>
+                <field name="company_incorporation_date"/>
+                <field name="company_tin"/>-->
+                <field name="create_uid" string="Initiated By"/>
+                <field name="create_date" string="Initiated On"/>
+                <field name="stage_id" decoration-success="check_position==False"
+                       decoration-warning="check_position==True"/>
+                <field name="owner_role" decoration-success="check_position==False"
+                       decoration-warning="check_position==True"/>
+                <field name="tracking_status" invisible="1" column_invisible="True"/>
+                <field name="stage_code" invisible="1" column_invisible="True"/>
+                <field name="check_position" invisible="1" column_invisible="True"/>
+                <field name="task_status" decoration-success="check_position==False"
+                       decoration-warning="check_position==True"/>
+                <field name="process_status" decoration-success="check_global_position==True"
+                       decoration-warning="check_global_position==False"/>
+
+
+            </list>
+        </field>
+    </record>
+
+
+    <record id="me_enregistrement_form" model="ir.ui.view">
+        <field name="name">me.enregistrement.form</field>
+        <field name="model">me.enregistrement</field>
+        <field name="arch" type="xml">
+            <form string="Enregistrement" class="o_me_enregistrement">
+                <header>
+                    <div invisible="1">
+                        <field name="check_position" invisible="1"/>
+                        <field name="check_cancel_position" invisible="1"/>
+                        <field name="check_return_position" invisible="1"/>
+                        <field name="stage_code" invisible="1"/>
+                        <field name="type_workflow" invisible="1"/>
+                        <field name="tracking_stage_id" invisible="1"/>
+                        <field name="x_css" force_save="1" nolabel="1"/>
+                        <field name="is_readonly" invisible="1"/>
+                         <field name="access_url" invisible="1" />
+
+
+
+                    </div>
+                    <button name="%(workflow_management.action_qc_movement_submit)d"
+                            string="Submit"
+                            context="{'active_id': context.get('active_id'), 'active_model': context.get('active_model')}"
+                            class="fa fa-thumbs-o-up" type="action"
+                            invisible="check_position != True"
+                            style="background-color:#5ccc8b !important;"></button>
+                    <button name="%(workflow_management.action_qc_movement_cancel)d" string="Reset"
+                            class="fa fa-ban" type="action"
+                            invisible="check_cancel_position != True"
+
+                            style="background-color:#f7be64 !important;"
+                    ></button>
+                    <button name="%(workflow_management.action_qc_movement_return)d" string="Return"
+                            class="fa fa-reply " type="action"
+                            invisible="check_return_position != True"
+                            style="background-color:#ef8a80 !important;color:#ffffff important;"
+                    ></button>
+                    <field name="stage_id" widget="statusbar"/>
+
+                </header>
+                <sheet>
+
+                    <group name="enregistrement_header">
+                        <group name="name">
+                            <field name="company_name"
+                                   placeholder="Nom de l'entité" readonly="is_readonly == True"   />
+                            <field name="name"
+                                   placeholder="Nom de l'administrateur délégué" readonly="is_readonly == True" />
+                            <field name="numero_enregistrement"
+                                   placeholder="Numéro d'enregistrement national" readonly="is_readonly == True" />
+                            <field name="date_enregistrement"
+                                   placeholder="Date d'enregistrement" readonly="is_readonly == True" />
+                        </group>
+                        <group name="username">
+                             <field name="email"
+                                   placeholder="Email de l'entité" readonly="is_readonly == True" />
+                            <field name="telephone"
+                                   placeholder="Téléphone" readonly="is_readonly == True" />
+                            <field name="username"
+                                   placeholder="Login" readonly="is_readonly == True" />
+                            <field name="password"
+                                   placeholder="Mot de passe" password="1" readonly="is_readonly == True" />
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Documents joints">
+                            <field name="document_ids" placeholder="Documents" readonly="is_readonly == True" >
+                                <list string="Documents joints" editable="bottom">
+                                    <field name="file" filename="file_name" placeholder="Sélectionner un fichier"
+                                    />
+                                    <field name="file_name" invisible="1" force_save="1" column_invisible="True"
+                                    />
+                                    <field name="nature_id" placeholder="Sélectionner la nature du document"/>
+                                </list>
+                            </field>
+
+                        </page>
+                        <page string="Autres">
+                        </page>
+                    </notebook>
+
+                    <div class="row" style="width:100%;">
+                        <div style="width: 100%; margin: 10px 0px; border: 1px solid #dbe1e8; padding: 14px;">
+                            <div>
+                                <h2 style="padding:2px 2px 5px 20px;">
+                                    <i class="fa fa-bars"></i>
+                                    <b>Journal des actions</b>
+                                </h2>
+                            </div>
+                            <div>
+                                <field name="movement_ids" nolabel="1" widget="one2many_list"
+                                       context="{'list_view_ref':'view_movement_list_view'}"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Actions -->
+    <record id="action_enregistrement_list" model="ir.actions.act_window">
+        <field name="name">Liste des Enregistrements</field>
+        <field name="res_model">me.enregistrement</field> <!-- Remplacez par votre modèle -->
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="me_enregistrement_list"/>
+    </record>
+
+    <record id="action_enregistrement_new" model="ir.actions.act_window">
+        <field name="name">Nouvel Enregistrement</field>
+        <field name="res_model">me.enregistrement</field> <!-- Remplacez par votre modèle -->
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="me_enregistrement_form"/>
+    </record>
+
+
+</odoo>

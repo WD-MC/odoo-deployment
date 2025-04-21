@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+          <record id="registration_submit_notify_email_template" model="mail.template">
+                <field name="name">Confirmation de votre soumission</field>
+                <field name="model_id" ref="module_enregistrement.model_me_enregistrement"/>
+                <field name="subject">Confirmation de soumission de votre demande n° {{ object.model_application_number }}</field>
+                <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted or object.partner_id.company_id.email) }}</field>
+                <field name="email_to">{{object.email}}</field>
+                <field name="description">Email de confirmation de soumission</field>
+                <field name="body_html" type="html">
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
+                        <h2 style="color: #4CAF50; text-align: center;">Bienvenue sur la plateforme FINEX</h2>
+                      <p style="font-size: 16px; color: #333;">Cher <t t-out="object.name" /> ,</p>
+
+                            <p style="font-size: 16px; color: #333;">
+                                 Votre demande d'enregistrement a été soumise avec succès et est en cours de traitement
+                            </p>
+
+                            <p style="font-size: 16px; color: #333;">
+                                Vous recevrez un mail d'approbation / de rejet de votre demande à la fin de son traitement par nos services.
+                                Une demande de complément d'informations peut être nécessaire et vous seriez notifié si c'est le cas.
+                            </p>
+
+                           <p style="font-size: 14px; color: #777; margin-top: 20px;">
+                              <strong style="color: #f44336;">
+                                ⚠️ Merci de ne pas répondre à ce mail
+                              </strong>.
+                            </p>
+
+                            <p style="font-size: 12px; color: #aaa; text-align: center; margin-top: 30px;">
+                                © 2025 FINEX. Tous droits réservés.
+                            </p>
+                        </div>
+                </field>
+         </record>
+
+         <record id="registration_approbation_notify_email_template" model="mail.template">
+                <field name="name">Confirmation d'approbation</field>
+                <field name="model_id" ref="module_enregistrement.model_me_enregistrement"/>
+                <field name="subject">Confirmation d'approbation de votre demande n° {{ object.model_application_number }}</field>
+                <field name="email_from">{{ (object.create_uid.email_formatted or user.email_formatted or object.partner_id.company_id.email) }}</field>
+                <field name="email_to">{{object.email}}</field>
+                <field name="description">Email de confirmation d'approbation</field>
+                <field name="body_html" type="html">
+                    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
+                        <h2 style="color: #4CAF50; text-align: center;">Bienvenue sur la plateforme FINEX</h2>
+                      <p style="font-size: 16px; color: #333;">Cher <t t-out="object.name" /> ,</p>
+
+                            <p style="font-size: 16px; color: #333;">
+                                Votre demande d'enregistrement a été approuvé avec succès avec le nom d'utilisateur :
+                                <strong style="color: #4CAF50;"> <t t-out="object.username" /></strong>.
+                            </p>
+
+                            <p style="font-size: 16px; color: #333;">
+                                Utilisez le nom d'utilisateur ci-dessus et le mot de passe fourni lors du processus d'enregistrement pour vous connecter :
+                            </p>
+
+
+                            <div style="text-align: center; margin-top: 30px;">
+                                <a t-att-href="object.access_url"
+                                   style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                                   Accéder à FINEX
+                                </a>
+                            </div>
+
+
+                            <p style="font-size: 14px; color: #777; margin-top: 20px;">
+                              <strong style="color: #f44336;">
+                                ⚠️ Merci de ne pas répondre à ce mail
+                              </strong>.
+                            </p>
+                            <p style="font-size: 12px; color: #aaa; text-align: center; margin-top: 30px;">
+                                © 2025 FINEX. Tous droits réservés.
+                            </p>
+                        </div>
+                </field>
+         </record>
+
+    </data>
+</odoo>

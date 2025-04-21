@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+
+
+        <record id="view_currency_form_inherit" model="ir.ui.view">
+            <field name="name">res.currency.form</field>
+            <field name="model">res.currency</field>
+            <field name="inherit_id" ref="base.view_currency_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="button_submit" string="Submit" type="object"
+                                modifiers="{'invisible': ['|', ('status','=','submit') , ('status','=','validated')]}"
+                                confirm="Do you want to Set to submit?"
+                                groups="utils.group_exchange_rate_initiator" />
+                        <button name="button_draft" string="Set to Draft" type="object"
+                                modifiers="{'invisible': [('status','=','draft')]}"
+                                confirm="Do you want to Set to draft?"
+                                groups="utils.group_exchange_rate_approve" />
+                        <button name="button_validate" string="Set to Validate" type="object"
+                                modifiers="{'invisible': [('status','=','validated')]}"
+                                confirm="Do you want to Set to validate?"
+                                groups="utils.group_exchange_rate_approve"/>
+                        <field name="status" widget="statusbar" statusbar_visible="draft,submit,validated" readonly="1"/>
+                        <field name="is_readonly" invisible="1"/>
+                        <field name="x_css" force_save="1" nolabel="1"/>
+                    </header>
+                </xpath>
+                 <xpath expr="//sheet/notebook/page/field" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+                 <xpath expr="//sheet/group[1]/group[1]/field[@name='name']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+                 <xpath expr="//sheet/group[1]/group[1]/field[@name='full_name']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+                 <xpath expr="//sheet/group[1]/group[1]/field[@name='active']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+                 <xpath expr="//sheet/group[1]/group[2]/field[@name='currency_unit_label']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+                 <xpath expr="//sheet/group[1]/group[2]/field[@name='currency_subunit_label']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+
+                 <xpath expr="//sheet/group[2]/group[1]/field[@name='rounding']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+                 <xpath expr="//sheet/group[2]/group[1]/field[@name='decimal_places']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+                <!-- <xpath expr="//sheet/group[2]/group[2]/field[@name='symbol']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>-->
+                 <xpath expr="//sheet/group[2]/group[2]/field[@name='position']" position="attributes">
+                     <attribute name="modifiers">{'readonly': [ ('is_readonly', '=', True)]}</attribute>
+                </xpath>
+
+
+            </field>
+        </record>
+        <record id="qc_currency_action" model="ir.actions.act_window">
+            <field name="name">Currencies</field>
+            <field name="res_model">res.currency</field>
+            <field name="view_mode">list,form</field>
+            <!-- Add other action configuration fields as needed -->
+        </record>
+    </data>
+</odoo>

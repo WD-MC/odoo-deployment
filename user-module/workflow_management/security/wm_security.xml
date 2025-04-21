@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="module_category_workflow" model="ir.module.category">
+        <field name="name">Workflow Management module</field>
+        <field name="sequence">100</field>
+        <field name="visible">1</field>
+    </record>
+
+    <record id="group_workflow_administrator" model="res.groups">
+        <field name="name">Workflow Management Administrator</field>
+        <field name="category_id" ref="module_category_workflow"/>
+    </record>
+
+</odoo>

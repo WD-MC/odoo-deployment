@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+utils.counters,Counter of transacion access,utils.model_utils_counter,base.group_user,1,1,1,1
+utils.qc_model_document,Document access,utils.model_qc_model_document,base.group_user,1,1,1,1
+utils.qc_model_document_list,Document list access,utils.model_qc_model_document_list,base.group_user,1,1,1,1
+
+
+
+
+
+
+
+
+
+

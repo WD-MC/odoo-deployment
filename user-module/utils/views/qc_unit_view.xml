@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="qc_unit_action" model="ir.actions.act_window">
+            <field name="name">Unit</field>
+            <field name="res_model">uom.uom</field>
+            <field name="view_mode">list,form</field>
+            <!-- Add other action configuration fields as needed -->
+        </record>
+    </data>
+</odoo>

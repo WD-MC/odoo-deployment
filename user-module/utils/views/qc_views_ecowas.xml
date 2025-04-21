@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+
+        <record id="qc_ecowas_action" model="ir.actions.act_window">
+            <field name="name">Ecowas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">qc.model.ecowas</field>
+            <field name="context">{}</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Creer votre premier ecowas
+                </p>
+            </field>
+        </record>
+
+        <record id="qc_ecowas_list" model="ir.ui.view">
+            <field name="name">Ecowas</field>
+            <field name="model">qc.model.ecowas</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="heading_id" />
+                    <field name="tsn" />
+                    <field name="commodity_description" />
+                    <field name="standard_unit" />
+                    <field name="import_duty" />
+                    <field name="st" />
+                </list>
+            </field>
+        </record>
+
+        <record id="qc_ecowas_form" model="ir.ui.view">
+            <field name="name">Ecowas</field>
+            <field name="model">qc.model.ecowas</field>
+            <field name="arch" type="xml">
+                <form>
+                        <div class="oe_button_box" name="button_box">
+                        <button style="background-color:#7a2021 !important;color:#fff !important; border-radius:25px !important;text-align:center;width: 150px;margin-top:22px;margin-right:3px;"
+                                class="oe_stat_button fa fa-file-pdf-o " type="object" string="Licence PDF"
+                                name="download_licence_pdf"
+                        >
+                        </button>
+                    </div>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="heading_id" />
+                            <field name="tsn" />
+                            <field name="commodity_description" />
+                        </group>
+                        <group>
+                            <field name="standard_unit" />
+                            <field name="import_duty" />
+                            <field name="st" />
+                        </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

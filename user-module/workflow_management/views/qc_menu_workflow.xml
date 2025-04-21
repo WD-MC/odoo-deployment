@@ -1,0 +1,16 @@
+<odoo>
+  <data>
+    <!-- Top menu item -->
+    <menuitem name="Workflow Engine" id="workflow-engine_menu_root" groups="workflow_management.group_workflow_administrator"  web_icon="workflow_management,static/description/icon.png" />
+    <!-- menu categories -->
+    <menuitem name="Workflow Engine" id="workflow-engine_workflow_engine" parent="workflow-engine_menu_root" />
+    <!-- actions -->
+    <menuitem name="Workflow Applications" id="workflow-workflow_application" parent="workflow-engine_workflow_engine" action="qc_application_action"/>
+    <menuitem name="Workflows" id="workflow-workflows" parent="workflow-engine_workflow_engine" action="qc_workflow_action"/>
+    <menuitem name="Workflow Status(Step)" id="workflow-workflow_status" parent="workflow-engine_workflow_engine" action="qc_stage_action"/>
+    <menuitem name="Workflow Action list" id="workflow-workflow_action_list" parent="workflow-engine_workflow_engine" action="qc_workflow_action_list_action"/>
+    <menuitem name="Workflow Approval Structure" id="workflow-workflow_approval_structure" parent="workflow-engine_workflow_engine" action="qc_workflow_approval_structure_action"/>
+    <menuitem name="Workflow Counter" id="workflow-workflow_counter_action" parent="workflow-engine_workflow_engine" action="qc_counter_action"/>
+
+  </data>
+</odoo>

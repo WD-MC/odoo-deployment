@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="utils.report_gfza_sample_deferred_letter">
+       <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="doc.st=='0507'">
+                     <t t-call="utils.report_deferred_letter_structure_template"/>
+                </t>
+                <t t-if="not doc.st=='0507'">
+                     <t t-call="utils.report_deferred_letter_structure_no_template"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Template Structure deferred-->
+    <template id="report_deferred_letter_structure_template">
+        <t t-call="web.html_container">
+            <div class="page">
+                <t t-call="utils.report_deferred_letter_content"/>
+                <t t-call="utils.report_referred_footer"/>
+            </div>
+        </t>
+    </template>
+
+     <!-- Template Structure not deferred -->
+    <template id="report_deferred_letter_structure_no_template">
+        <t t-call="web.html_container">
+            <div class="page">
+                <t t-call="utils.report_deferred_letter_no_content"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- content -->
+    <template id="report_deferred_letter_content">
+        <div class="page">
+            <div class="text-left">
+                <h5 style="font-family:Calibri !important; text-align:left">THE MANAGING DIRECTOR</h5>
+                <h5 style="font-family:Calibri !important; text-align:left">ANASCO COCOA IIB DG LIMITED</h5>
+                <h5 style="font-family:Calibri !important; text-align:left">P. O. BOX MP 3113,</h5>
+                <h5 style="font-family:Calibri !important; text-align:left">MAMPROBI, ACCRA</h5>
+            </div>
+            <br/>
+            <p style="font-family:Calibri !important; text-align:left">Dear sir,</p>
+
+            <div style="margin-top:10mm">
+                <h5 style="font-family:Calibri !important; text-align:center; text-decoration: underline;"><strong>APPLICATION FOR FREE ZONES LICENSE</strong></h5>
+                <div style="margin-top:10mm">
+                    <p style="">This is in reference to your application to the Authority for a Manufacturing licence.</p>
+                    <p style="">The GFZA wishes to inform you that your application has been deferred.</p>
+                    <p style="">This is because we would like to invite you to the next GFZA Board meeting to explain how the company intend to deal with the proximity of a quarry to the factory.</p>
+                    <p style="">Kindly be informed that the date for the next Board meeting will be communicated to you in due time.</p>
+                    <p style="">Counting on your cooperation.</p>
+                    <p style="margin-top:15mm">Yours faithfully,</p>
+                </div>
+            </div>
+
+            <div style="margin-top:30mm">
+                <h5 style="font-family:Calibri !important; text-align:left">AMB. MICHAEL A.N.N.Y. OQUAYE</h5>
+                <h5 style="font-family:Calibri !important; text-align:left">CHIEF EXECUTIVE OFFICER</h5>
+            </div>
+        </div>
+    </template>
+
+     <!-- No content -->
+     <template id="report_deferred_letter_no_content">
+        <div class="page">
+            <div style="margin-top:10mm">
+                <h5 style="font-family:Calibri !important; text-align:center; text-decoration: underline;"><strong>APPLICATION FOR FREE ZONES LICENSE</strong></h5>
+                <div style="margin-top:70mm">
+                    <p style="color:red"><strong>The status of the applicant does not allow the deferred letter to be downloaded. Please check again...</strong></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+      <!-- Footer -->
+    <template id="report_referred_footer">
+        <div class="footer">
+            <div class="row text-center" style="border-top: 1px solid black;">
+                <p style="margin-top:3px;width:100%; text-align:left; font-size:x-small">
+                     Original deferred letter
+                </p>
+            </div>
+        </div>
+    </template>
+</odoo>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="utils.report_gfza_sample_rejected_letter">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="doc.st=='0508'">
+                     <t t-call="utils.report_rejected_letter_structure_template"/>
+                </t>
+                <t t-if="not doc.st=='0508'">
+                     <t t-call="utils.report_rejected_letter_structure_no_template"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Template Structure rejected-->
+    <template id="report_rejected_letter_structure_template">
+        <t t-call="web.html_container">
+            <div class="page">
+                <t t-call="utils.report_rejected_letter_content"/>
+                <t t-call="utils.report_rejected_footer"/>
+            </div>
+        </t>
+    </template>
+
+     <!-- Template Structure not rejected -->
+    <template id="report_rejected_letter_structure_no_template">
+        <t t-call="web.html_container">
+            <div class="page">
+                <t t-call="utils.report_deferred_letter_no_content"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- content -->
+    <template id="report_rejected_letter_content">
+        <div class="page">
+            <div class="text-left">
+                <h5 style="font-family:Calibri !important; text-align:left">THE MANAGER</h5>
+                <h5 style="font-family:Calibri !important; text-align:left">PHOSE FOOD CO.LTD</h5>
+                <h5 style="font-family:Calibri !important; text-align:left">P.O.BOX ML 131</h5>
+                <h5 style="font-family:Calibri !important; text-align:left">ACCRA</h5>
+            </div>
+            <br/>
+            <p style="font-family:Calibri !important; text-align:left">Dear sir,</p>
+
+            <div style="margin-top:10mm">
+                <h5 style="font-family:Calibri !important; text-align:center; text-decoration: underline;"><strong>APPLICATION FOR FREE ZONES LICENSE</strong></h5>
+                <div style="margin-top:10mm">
+                    <p style="">Your application for a Free Zone Manufacturing license refers.</p>
+                    <p style="">We wish to inform you that your application has not been successful due to the nature of your intended business operations.</p>
+                    <p style="">The site visit to the place indicated that your operations may conflict with the requirements of the Free Zones rules and regulations.</p>
+                    <p style="">In the circumstances, we advise you to consider the <strong>One District One Factory (1D1F) programme</strong> as those rules are more favourable to the nature of business you intend to undertake as opposed to the Free Zones programme.</p>
+                    <p style="">Do not hesitate to contact us for any clarifications if the need be.</p>
+                    <p style="">We wish you the best in your future endeavors as you strife to leverage the President’s vision for employment generation.</p>
+                    <p style="margin-top:15mm">Yours faithfully,</p>
+                </div>
+            </div>
+
+            <div style="margin-top:30mm">
+                <h5 style="font-family:Calibri !important; text-align:left">AMB. MICHAEL A.N.N.Y. OQUAYE</h5>
+                <h5 style="font-family:Calibri !important; text-align:left">CHIEF EXECUTIVE OFFICER</h5>
+            </div>
+        </div>
+    </template>
+
+     <!-- No content -->
+     <template id="report_rejected_letter_no_content">
+        <div class="page">
+            <div style="margin-top:10mm">
+                <h5 style="font-family:Calibri !important; text-align:center; text-decoration: underline;"><strong>APPLICATION FOR FREE ZONES LICENSE</strong></h5>
+                <div style="margin-top:70mm">
+                    <p style="color:red"><strong>The status of the applicant does not allow the rejected letter to be downloaded. Please check again...</strong></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+      <!-- Footer -->
+    <template id="report_rejected_footer">
+        <div class="footer">
+            <div class="row text-center" style="border-top: 1px solid black;">
+                <p style="margin-top:3px;width:100%; text-align:left; font-size:x-small">
+                     Original rejected letter
+                </p>
+            </div>
+        </div>
+    </template>
+</odoo>

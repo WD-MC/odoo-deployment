@@ -1,0 +1,575 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+
+        <!-- Qc Application -->
+
+        <record model="ir.ui.view" id="qc_application_search_view">
+            <field name="name">qc.application.search</field>
+            <field name="model">qc.application</field>
+            <field name="arch" type="xml">
+                <search string="Search Qc Application">
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="status"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="qc_application_list_view" model="ir.ui.view">
+            <field name="name">qc.application.list</field>
+            <field name="model">qc.application</field>
+
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="status"/>
+
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="qc_application_form_view">
+            <field name="name">qc.application.form</field>
+            <field name="model">qc.application</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="status"/>
+
+
+                        </group>
+
+                        <notebook>
+
+                            <page string="Other Information">
+                                <group>
+                                    <group>
+
+                                    </group>
+                                    <group>
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="qc_application_action">
+            <field name="name">Qc Application</field>
+            <field name="res_model">qc.application</field>
+            <field name="view_mode">list,form,kanban</field>
+            <!--        <field name="search_view_id" ref="qc-engine_name_search_view"/>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Qc Application
+                </p>
+                <p>
+                    You must define a Qc Application.
+                </p>
+            </field>
+        </record>
+
+       <!-- Qc Workflow -->
+
+    <record model="ir.ui.view" id="qc_workflow_search_view">
+      <field name="name">qc.workflow.search</field>
+      <field name="model">qc.workflow</field>
+      <field name="arch" type="xml">
+        <search string="Search Qc Workflow">
+					<field name="qc_application_id"/>
+                     <field name="name"/>
+					 <field name="code"/>
+                     <field name="description"/>
+                    <field name="status"/>
+        </search>
+      </field>
+    </record>
+
+    <record id="qc_workflow_list_view" model="ir.ui.view">
+            <field name="name">qc.workflow.list</field>
+            <field name="model">qc.workflow</field>
+
+            <field name="arch" type="xml">
+                <list>
+					<field name="qc_application_id"/>
+                    <field name="name"/>
+					<field name="code"/>
+                    <field name="description"/>
+                    <field name="status"/>
+
+                  </list>
+            </field>
+        </record>
+
+    <record model="ir.ui.view" id="qc_workflow_form_view">
+      <field name="name">qc.workflow.form</field>
+      <field name="model">qc.workflow</field>
+      <field name="arch" type="xml">
+        <form>
+
+            <sheet>
+                <group>
+					<field name="qc_application_id" options="{'no_edit': True, 'no_create': True}"/>
+                    <field name="name"/>
+					<field name="code"/>
+                    <field name="description"/>
+                    <field name="status"/>
+
+
+                </group>
+
+                <notebook>
+
+                        <page string="Other Information" >
+                            <group>
+                                <group >
+
+                                </group>
+                                <group >
+
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="qc_workflow_action">
+      <field name="name">Qc Workflow</field>
+      <field name="res_model">qc.workflow</field>
+      <field name="view_mode">list,form,kanban</field>
+<!--        <field name="search_view_id" ref="qc-engine_name_search_view"/>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Create a new Qc Workflow
+            </p><p>
+              You must define a Qc Workflow.
+            </p>
+          </field>
+    </record>
+
+
+
+         <!-- Qc Stage -->
+
+    <record model="ir.ui.view" id="qc_stage_search_view">
+      <field name="name">qc.stage.search</field>
+      <field name="model">qc.stage</field>
+      <field name="arch" type="xml">
+        <search string="Search Qc Stage">
+					<field name="qc_workflow_id"/>
+                     <field name="sequence"/>
+                     <field name="name"/>
+					 <field name="tracking_status"/>
+					 <field name="code"/>
+                     <field name="description"/>
+                    <field name="status"/>
+        </search>
+      </field>
+    </record>
+
+    <record id="qc_stage_list_view" model="ir.ui.view">
+            <field name="name">qc.stage.list</field>
+            <field name="model">qc.stage</field>
+
+            <field name="arch" type="xml">
+                <list>
+                    <field name="sequence"/>
+					<field name="qc_workflow_id" />
+                    <field name="name"/>
+					 <field name="tracking_status"/>
+					<field name="code"/>
+                    <field name="description"/>
+                    <field name="status"/>
+
+                  </list>
+            </field>
+        </record>
+
+    <record model="ir.ui.view" id="qc_stage_form_view">
+      <field name="name">qc.stage.form</field>
+      <field name="model">qc.stage</field>
+      <field name="arch" type="xml">
+        <form>
+
+            <sheet>
+                <group>
+                     <field name="sequence"/>
+					<field name="qc_workflow_id" options="{'no_edit': True, 'no_create': True}"/>
+                    <field name="name"/>
+					 <field name="tracking_status"/>
+					<field name="code"/>
+                    <field name="description"/>
+                    <field name="status"/>
+
+
+                </group>
+
+                <notebook>
+
+                        <page string="Other Information" >
+                            <group>
+                                <group >
+
+                                </group>
+                                <group >
+
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+            </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="qc_stage_action">
+      <field name="name">Qc Stage</field>
+      <field name="res_model">qc.stage</field>
+      <field name="view_mode">list,form,kanban</field>
+<!--        <field name="search_view_id" ref="qc-engine_name_search_view"/>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+              Create a new Qc Stage
+            </p><p>
+              You must define a Qc Stage.
+            </p>
+          </field>
+    </record>
+
+
+
+        <!-- Qc Workflow action list -->
+
+        <record model="ir.ui.view" id="qc_workflow_action_list_search_view">
+            <field name="name">qc.workflow.action.list.search</field>
+            <field name="model">qc.workflow.action.list</field>
+            <field name="arch" type="xml">
+                <search string="Search Qc Workflow action list">
+                    <field name="qc_workflow_id"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="status"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="qc_workflow_action_list_list_view" model="ir.ui.view">
+            <field name="name">qc.workflow.action.list.list</field>
+            <field name="model">qc.workflow.action.list</field>
+
+            <field name="arch" type="xml">
+                <list>
+                    <field name="qc_workflow_id"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="status"/>
+
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="qc_workflow_action_list_form_view">
+            <field name="name">qc.workflow.action.list.form</field>
+            <field name="model">qc.workflow.action.list</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <sheet>
+                        <group>
+                            <field name="qc_workflow_id" options="{'no_edit': True, 'no_create': True}"/>
+                            <field name="name"/>
+                            <field name="description"/>
+                            <field name="status"/>
+
+
+                        </group>
+
+                        <notebook>
+
+                            <page string="Other Information">
+                                <group>
+                                    <group>
+
+                                    </group>
+                                    <group>
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="qc_workflow_action_list_action">
+            <field name="name">Qc Workflow action list</field>
+            <field name="res_model">qc.workflow.action.list</field>
+            <field name="view_mode">list,form,kanban</field>
+            <!--        <field name="search_view_id" ref="qc-engine_name_search_view"/>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Qc Workflow action list
+                </p>
+                <p>
+                    You must define a Qc Workflow action list.
+                </p>
+            </field>
+        </record>
+
+
+
+
+             <!-- Qc Workflow approval structure -->
+
+        <record model="ir.ui.view" id="qc_workflow_approval_structure_search_view">
+            <field name="name">qc.workflow.approval.structure.search</field>
+            <field name="model">qc.workflow.approval.structure</field>
+            <field name="arch" type="xml">
+                <search string="Search Qc Workflow approval structure">
+                    <field name="qc_workflow_id"/>
+                    <field name="qc_current_stage_id"/>
+                    <field name="action_name"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="qc_workflow_approval_structure_list_view" model="ir.ui.view">
+            <field name="name">qc.workflow.approval.structure.list</field>
+            <field name="model">qc.workflow.approval.structure</field>
+
+            <field name="arch" type="xml">
+                <list>
+                    <field name="qc_workflow_id"/>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="qc_current_stage_id"/>
+                    <field name="action_name"/>
+                    <field name="qc_next_stage_id"/>
+                    <field name="type_event"/>
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="qc_workflow_approval_structure_form_view">
+            <field name="name">qc.workflow.approval.structure.form</field>
+            <field name="model">qc.workflow.approval.structure</field>
+            <field name="arch" type="xml">
+                <form>
+
+                    <sheet>
+                        <group>
+                            <!--                    <field name="action_name"/>-->
+                            <!--                      <field name="qc_qc_stage_id_curves"/>-->
+                            <field name="qc_workflow_id" options="{'no_edit': True, 'no_create': True}"/>
+                            <field name="department_id"  options="{'no_edit': True, 'no_create': True}" />
+                           <!-- <field name="job_id" context="{'default_department_id': department_id}"
+                                   invisible = "[ ('department_id', '=', False)]"  options="{'no_edit': True, 'no_create': True}" />-->
+
+                            <field name="job_id" context="{'default_department_id': department_id}"   options="{'no_edit': True, 'no_create': True}" />
+
+                            <field name="qc_current_stage_id" context="{'default_qc_workflow_id': qc_workflow_id}"  options="{'no_edit': True, 'no_create': True}"/>
+                            <field name="action_name"  context="{'default_qc_workflow_id': qc_workflow_id}" options="{'no_edit': True, 'no_create': True}"/>
+                            <field name="qc_next_stage_id" context="{'default_qc_workflow_id': qc_workflow_id}"  options="{'no_edit': True, 'no_create': True}"/>
+                            <field name="type_event"/>
+
+                        </group>
+
+                        <notebook>
+
+                            <page string="Other Information">
+                                <group>
+                                    <group>
+
+                                    </group>
+                                    <group>
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="qc_workflow_approval_structure_action">
+            <field name="name">Qc Workflow Approval Structure</field>
+            <field name="res_model">qc.workflow.approval.structure</field>
+            <field name="view_mode">list,form,kanban</field>
+            <!--        <field name="search_view_id" ref="qc-engine_name_search_view"/>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Qc Workflow Approval Structure
+                </p>
+                <p>
+                    You must define a Qc Qc Workflow Approval Structure.
+                </p>
+            </field>
+        </record>
+
+
+
+
+        <!-- inherited views -->
+        <!--<record id="view_department_form_inherit" model="ir.ui.view">
+             <field name="name">ir.module.category.form</field>
+             <field name="model">ir.module.category</field>
+             <field name="inherit_id" ref="hr.view_department_form"/>
+             <field name="arch" type="xml">
+
+                 <data>
+
+                     <xpath expr="//group/field[@name='name']" position="after">
+                         <field name="code"/>
+                     </xpath>
+
+                 </data>
+
+
+             </field>
+         </record>-->
+
+
+        <!--<record id="view_res.groups_form_inherit" model="ir.ui.view">
+             <field name="name">res.groups.form</field>
+             <field name="model">res.groups</field>
+             <field name="inherit_id" ref="hr.view_res.groups_form"/>
+             <field name="arch" type="xml">
+
+                 <data>
+                     <xpath expr="//div[hasclass('oe_title')]"        position="after">
+                         <field name="code"/>
+                     </xpath>
+                 </data>
+
+             </field>
+         </record>
+ -->
+
+        <!-- message views -->
+        <record id="message_wizard_form" model="ir.ui.view">
+            <field name="name">message.wizard.form</field>
+            <field name="model">message.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <p class="text-center">
+                        <h1>
+                            <field name="message" readonly="True"/>
+                        </h1>
+                    </p>
+                    <footer>
+                        <button name="action_ok" string="Ok" type="object" default_focus="1" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- explicit list view definition of counter -->
+        <record model="ir.ui.view" id="qc_counter_search_view">
+            <field name="name">qc.counter.search</field>
+            <field name="model">qc.counter</field>
+            <field name="arch" type="xml">
+                <search string="Search Type License">
+                    <field name="qc_workflow_id" />
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="counter"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="qc_counter_list_view" model="ir.ui.view">
+            <field name="name">qc.counter.list</field>
+            <field name="model">qc.counter</field>
+            <field name="arch" type="xml">
+                <list create="false" delete="false">
+                    <field name="qc_workflow_id"/>
+                    <field name="year"/>
+                    <field name="month"/>
+                    <field name="counter"/>
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="qc_counter_form_view">
+            <field name="name">qc.counter.form</field>
+            <field name="model">qc.counter</field>
+            <field name="arch" type="xml">
+                <form create="false" delete="false">
+
+                    <sheet>
+                        <group>
+                            <field name="qc_workflow_id" readonly="1" options="{'no_edit': True, 'no_create': True}"/>
+                            <field name="year" readonly="1"/>
+                            <field name="month" readonly="1"/>
+                            <field name="counter"/>
+                        </group>
+                        <notebook>
+
+                            <page string="Other Information">
+                                <group>
+                                    <group>
+
+                                    </group>
+                                    <group>
+
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="qc_counter_action">
+            <field name="name">Qc Counter</field>
+            <field name="res_model">qc.counter</field>
+            <field name="view_mode">list,form,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new counter action
+                </p>
+                <p>
+                    You must define a Qc Counter.
+                </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

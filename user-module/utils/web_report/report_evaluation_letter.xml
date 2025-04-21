@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="utils.report_gfza_evaluations_letter">
+         <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-if="doc.st=='0510'">
+                     <t t-call="utils.report_evaluation_letter_structure_template"/>
+                </t>
+                <t t-if="not doc.st=='0510'">
+                     <t t-call="utils.report_evaluation_letter_structure_no_template"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Template Structure Approval-->
+    <template id="report_evaluation_letter_structure_template">
+        <t t-call="web.html_container">
+            <t t-call="utils.report_evaluation_header"/>
+            <div class="page">
+                <t t-call="utils.report_evaluation_letter_content"/>
+                <t t-call="utils.report_evaluation_name_of_company"/>
+                <t t-call="utils.report_evaluation_project_description"/>
+                <t t-call="utils.report_evaluation_status"/>
+                <t t-call="utils.report_evaluation_director"/>
+                <t t-call="utils.report_evaluation_proposed_location"/>
+                <t t-call="utils.report_evaluation_documents_submitted"/>
+                <t t-call="utils.report_evaluation_machinery_equipment"/>
+                <t t-call="utils.report_evaluation_proposed_products"/>
+                <t t-call="utils.report_evaluation_proposed_exports"/>
+                <t t-call="utils.report_evaluation_proposed_funding"/>
+                <t t-call="utils.report_evaluation_proposed_employment"/>
+                <t t-call="utils.report_evaluation_financial_analysis"/>
+                <t t-call="utils.report_evaluation_footer"/>
+            </div>
+        </t>
+    </template>
+
+     <!-- Template Structure not approval -->
+    <template id="report_evaluation_letter_structure_no_template">
+        <t t-call="web.html_container">
+            <div class="page">
+                <t t-call="utils.report_evaluation_letter_no_content"/>
+            </div>
+        </t>
+    </template>
+
+     <!-- Header -->
+    <template id="report_evaluation_header">
+            <div class="header">
+                <div class="text-right">
+                        <img src="utils/static/description/logo_gfza.jpg" style="max-height: 10mm;"/>
+                </div>
+            </div>
+    </template>
+
+    <!-- content Evaluation Report -->
+    <template id="report_evaluation_letter_content">
+        <div class="page">
+            <div class="text-left">
+                <h1 style="background-color: rgb(100,130,237);color: white;text-align:center">Evaluation Report</h1>
+                <p style="text-align:justify;">This report provides an assessment of the entire project for onward dispatch to the project evaluation committees.</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Name of Company-->
+    <template id="report_evaluation_name_of_company">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">1. Name of Company</h3>
+                <p style="text-align:justify;">AICPL FZE FEEDS LTD</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Project Description -->
+    <template id="report_evaluation_project_description">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">2. Project Description</h3>
+                <p style="text-align:justify;">AICP FZE FEED LTD herein referred to as the Applicant is a private limited liability company proposed to engage in the Production and exportation of Aqua Culture Feeds.</p>
+                <p style="text-align:justify;">(Fish feeds). Aquaculture is breeding, raising, and harvesting fish, shellfish, and aquatic plants. Aquaculture feeds are formulated with a vast pool of ingredients which, when fed to the animal, are intended to supply its nutritional requirements to perform its normal physiological functions, including maintaining a highly effective natural immune system, growth, and reproduction. AICPL with a view to gaining control of its raw materials to ensure availability for optimum production and utilization of the fish feed plant, company has acquired 1,000 acres of land to produce   raw materials namely cassava, maize, groundnut and soyabeans.  With the aim of improving food security on the African continent, AICPL is making better use of local raw materials from farms to lessening reliance on imported feed ingredients. Their main Funding source is Agricultural, Industrial, Commercial Products Ltd (AICPL) and doubles as their parent company.</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Status-->
+    <template id="report_evaluation_status">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">3. Status</h3>
+                <p style="text-align:justify;">AICPL FZE Feeds Ltd was incorporated in Ghana on 27th July 2023.</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Evaluation Director -->
+    <template id="report_evaluation_director">
+        <div class="page">
+            <div class="text-left">
+            <h3 style="border-bottom: 2px solid rgb(25,25,112);">4. Director</h3>
+              <p style="text-align:justify;">The Directors of the company are, Alhaji Adam Sulemana and Agricultural Industrial and Commercial Products Ltd (AICPL) both Ghanaian. Alhaji Adam Sulemana who holds majority shares of 90% amounting to One Million, Eight Hundred Ghana Cedis (GH₵ 1,800,000) and Agricultural Industrial and Commercial Products Ltd (AICPL) who holds a share Capital of Two Hundred Thousand Ghana Cedis (GH₵ 200,000) with a shareholder contribution of 10%. In total, the shares contribution amounted to Two Million Ghana Cedis (GH₵2,000,000).</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Proposed Location-->
+    <template id="report_evaluation_proposed_location">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">5. Proposed Location</h3>
+              <p style="text-align:justify;">The project is located at Kumawu 800m from New District Hospital in the Sekyere Kumawu District in the Ashanti Region, with the GPS address AU-0107-0628.</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Documents Submitted -->
+    <template id="report_evaluation_documents_submitted">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">6. Documents Submitted</h3>
+                <p style="text-align:left;"><strong>New Investments</strong></p>
+                <p style="text-align:left;">Duly completed free zone application -
+                    <span>
+                        <t t-if="doc.duly_completed_free_zone_application">
+                            SUBMITTED.
+                        </t>
+                        <t t-if="not doc.duly_completed_free_zone_application">
+                            NOT SUBMITTED.
+                        </t>
+                    </span></p>
+                <p style="text-align:left;">Business Plan/Feasibility Study -
+                    <span>
+                        <t t-if="doc.business_plan_feasibility_study">
+                            SUBMITTED.
+                        </t>
+                        <t t-if="not doc.business_plan_feasibility_study'">
+                            NOT SUBMITTED.
+                        </t>
+                    </span>
+                </p>
+                <p style="text-align:left;">Certificate of Incorporation -
+                 <span>
+                        <t t-if="doc.certificate_of_incorporation">
+                            SUBMITTED.
+                        </t>
+                        <t t-if="not doc.certificate_of_incorporation">
+                            NOT SUBMITTED.
+                        </t>
+                    </span>
+                </p>
+                <p style="text-align:left;">Companies Code/Regulations -
+                 <span>
+                        <t t-if="doc.companies_regulation">
+                            SUBMITTED.
+                        </t>
+                        <t t-if="not doc.companies_regulation">
+                            NOT SUBMITTED.
+                        </t>
+                    </span></p>
+                <p style="text-align:left;">Environmental Protection Agency Permit -
+                 <span>
+                        <t t-if="doc.environmental_impact_assessment">
+                            SUBMITTED.
+                        </t>
+                        <t t-if="not doc.environmental_impact_assessment">
+                            NOT SUBMITTED.
+                        </t>
+                    </span>
+                </p>
+                <p style="text-align:left;">Evidence of Transfer of funds/funding -
+                 <span>
+                        <t t-if="doc.evidence_of_transfer_of_funds_funding">
+                            SUBMITTED.
+                        </t>
+                        <t t-if="not doc.evidence_of_transfer_of_funds_funding">
+                            NOT SUBMITTED.
+                        </t>
+                    </span>
+                </p>
+                <p style="text-align:left;">Evidence of Export -
+                 <span>
+                        <t t-if="doc.evidence_to_export">
+                            SUBMITTED.
+                        </t>
+                        <t t-if="not doc.evidence_to_export">
+                            NOT SUBMITTED.
+                        </t>
+                    </span>
+                </p>
+                <p style="text-align:left;">Evidence of Lease or Rental of land /factory premises -
+                 <span>
+                        <t t-if="doc.evidence_of_lease_or_rental_of_land_factory_premises">
+                            SUBMITTED.
+                        </t>
+                        <t t-if="not doc.evidence_of_lease_or_rental_of_land_factory_premises">
+                            NOT SUBMITTED.
+                        </t>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content  -->
+    <template id="report_evaluation_machinery_equipment">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">7. Machinery / Equipment </h3>
+              <p style="text-align:justify;">The company proposes to procure Complete Fish Feed Production 3Ton/ hour Capacity, Forklifts 3Tons Capacity, Forklift 6Tons Capacity, Haulage Truck Triple Axle Articulated, Haulage Truck 15Tons, Pickups-Double Cabin, among others attached on the application form at  the total cost of, Four Million Seven Hundred and Seventy Five Thousand, Three Hundred and Ninety US Dollars  (US$ 4,775,390) from Germany, Japan, China, and Ghana.</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Proposed Products  -->
+    <template id="report_evaluation_proposed_products">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">8. Proposed Products</h3>
+                <p style="text-align:justify;">AICPL FZE Feeds Ltd proposes to produce Twenty-One Thousand Metric Tones (21,000MT) of Fish Feed with an Ex-factory value of Eight Million Eight Hundred and Twenty-One Thousand and Fifty US Dollars (US$ 8,821,050.00). The estimated production of the first year is Six(6) Thousand, Five Hundred metrics tons (6,500MT) at the cost of Two Million, Seven Hundred and Thirty Thousand,  Three Hundred and Twenty Five US Dollars (US$ 2,730,325.00), Seven Thousand metric tons (7,000MT)  at the cost of Two Million Nine Hundred and Forty Thousand Three Hundred and Fifty US Dollars (US$ 2,940,350.00) for the second year, the final year would see an increase of production quantity of  Seven Thousand, Five Hundred metric tons (7,500MT) at the cost of Three Million, One Hundred and Fifty Thousand, Three Hundred and Seventy  Five US Dollars (US$ 3,150,375.00).</p>
+                <h5 style="text-align:left;"><strong>Raw Material Source</strong></h5>
+                <p style="text-align:justify;">The raw materials to be purchased are Maize, Soyabeans, Cassava, Vegetable Oil, and Fish Feed at a total cost of One Million, Five Hundred and Fourteen Thousand, One Hundred and Ten US Dollars, Four cents (US$1,514,110.4) which will be locally acquired (Ghana).</p>
+                <p></p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Proposed Exports -->
+    <template id="report_evaluation_proposed_exports">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">9. Proposed Exports</h3>
+                <p style="text-align:justify;">The company proposes to export 80% of its products with an export value of Seven Million and Fifty-Six Thousand Eight Hundred and Forty US Dollars (US$ 7,056,840) to Nigeria.</p>
+                <p style="text-align:justify;">In establishing evidence of export, the applicant submitted a letter from an organization known as Traders of Africa, a Nigerian based e-commerce firm that focuses on Agro products originating from Africa with a clientele worldwide. In summary, the letter indicated the readiness of the firm to place orders for the products of the applicant given the applicants ability to meet certain laid down structures in terms of quantity and standards.</p>
+                <p style="text-align:justify;">An email sent to verify the authenticity of this letter, received an affirmation from Uju Uzo Ojinnaka, Chief executive officer of Traders of Africa.</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Proposed Funding -->
+    <template id="report_evaluation_proposed_funding">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">10. Proposed Funding</h3>
+                <p style="text-align:justify;">The estimated total amount of capital for the project is Five Million, One Hundred, and Seventy-Eight Thousand, Four Hundred and Thirty-Nine US Dollars (US$ 5,178,439.00). </p>
+                <p style="text-align:justify;">The Applicant, in demonstrating evidence of funding for their operations, submitted a letter of intent from their parent organization (AICP Ltd). The letter Indicates AICP Ltd’s intention to fully fund operational activities of the applicant from proceeds of a loan amount of Six Million, Four Hundred and Twenty Thousand US Dollars (US$6, 420, 000.00) sourced from AKA Ausfuhrkredit-gesellschaft mbH, a financial institution based in Germany. In the letter dated 3rd October 2023, and addressed to the Chief Executive Officer of GFZA, AICP Ltd, indicates a commitment to transfer funds for the General operations of AICPL FZE FEED LTD.</p>
+                <p style="text-align:justify;">An email sent to verify the authenticity of this letter, received an affirmation from Alhaji Adam Zachariah Sulemana, Managing Director Agricultural, Industrial &amp; Commercial Products Limited. </p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Proposed Employment -->
+    <template id="report_evaluation_proposed_employment">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">11. Proposed Employment</h3>
+                <p style="text-align:justify;">AICPL FZE Feeds Ltd proposes to employ One Hundred and Twenty-Eight (128) workers during the first three years of operation. However, the AICPL seeks to train and empower close to 5,000 youth (male and female) in aquaculture to curb youth unemployment in Ghana.</p>
+                <p style="text-align:justify;"><strong>NB:</strong> The application was received on 13th September 2023. The evaluation report was completed on 31st October 2023. Application Processing Officer: Georgietta Maku Narh</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- content Financial Analysis -->
+    <template id="report_evaluation_financial_analysis">
+        <div class="page">
+            <div class="text-left">
+                <h3 style="border-bottom: 2px solid rgb(25,25,112);">12. Financial Analysis</h3>
+                <p style="text-align:justify;">The proposed amount estimated to be invested in the establishment and operation of the company is Five million, one hundred and seventy-eight thousand, four hundred thirty-nine united state dollars ($5,178,439.00). A significant portion of this amount representing 96.51% are proceeds from a loan obtained from a financial institution based in Germany and the remaining One Hundred and Seventy-Eight Thousand, Four Hundred and Thirty-Nine Ghana Cedis (GH₵178,439.00) representing 3.49% account for local equity of the company. In accordance with the loan terms, an amount of Nine Thousand, Three Hundred and Sixty-Two US Dollars, Fifty Cents (US$9,362.50) was paid as a commitment fee to the bank. This fee was promptly transferred, and a corresponding letter of evidence was provided.</p>
+                <p style="text-align:justify;">The recipient of the loan, AICP Ltd, serves as the parent company of AICP FZE Feed Ltd. It is important to note that AICP Ltd extended its full financial support to AICP FZE Feed Ltd by guaranteeing, through a letter of intent, that it would cover the financial requirements for the company's operations. This commitment was subsequently substantiated through financial analysis, which identified evidence in the form of purchase agreements and payment invoices for machinery, totaling One Million and Seven Thousand, Five Hundred US Dollars (US $1,007,500.00). The parent company played a pivotal role in facilitating the funding and acquisition of machinery for AICP FZE Feed Ltd.</p>
+                <p style="text-align:justify;">It is instructive to note however that, this loan was a purpose-specific-loan whose terms required that the borrower (applicant’s parent) to invest the loan amount in the purchase and export of machinery and other equipment from the Country where the bank is hosted. These are common arrangements banks undertake to mitigate risk and facilitate economic development of their host countries.</p>
+                <p style="text-align:justify;">In conclusion, the financial structure and funding mechanisms of AICP FZE Feed Ltd are closely intertwined with its parent company, AICP Ltd. While the purpose-specific loan for machinery acquisition adheres to common banking practices, the provision of a zero-account statement and the purchase agreements executed in the name of the parent company necessitate further clarification and transparency in the financial operations and governance of AICP FZE Feed Ltd. </p>
+
+                <h5><strong>Recommendation</strong></h5>
+                <p style="text-align:justify">AICP Ltd. has showcased its robust financial standing and the unwavering capacity to support the operations of AICP FZE Ltd. With a steadfast commitment to fully fund the activities of AICP FZE Feed Ltd, the company is primed to not only meet but surpass its business targets. It is with firm confidence that we extend our strong recommendation for the granting of a license to AICP FZE Feed Ltd, subject to detailed site visits to ascertain first-hand the extents of investments made thus far.</p>
+            </div>
+        </div>
+    </template>
+
+     <!-- No content -->
+     <template id="report_evaluation_letter_no_content">
+        <div class="page">
+            <div style="margin-top:10mm">
+                <h4 style="font-family:Calibri !important; text-align:center; text-decoration:underline;"><strong>Evaluation Report</strong></h4>
+                <div style="margin-top:70mm">
+                    <p style="color:red"><strong>The status of the applicant does not allow the Evaluation letter to be downloaded. Please check again...</strong></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+      <!-- Footer -->
+    <template id="report_evaluation_footer">
+        <div class="footer">
+            <div class="row text-right" style="border-top: 1px solid black; text-align:right; list-style:none;">
+                <!--<p style="margin-top:3px; width:100%; text-align:left; font-size:x-small">
+                     Original evaluation letter
+                </p> -->
+                <ul class="list-inline" style="text-decoration:none;">
+                    <li>Page:</li>
+                </ul>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage no-list-style"/></li>
+            </div>
+        </div>
+    </template>
+</odoo>

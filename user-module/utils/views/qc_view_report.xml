@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <!-- explicit  view definition -->
+        <record id="qc_model_report_search_view" model="ir.ui.view">
+            <field name="name">qc.model.report.search</field>
+            <field name="model">qc.model.report</field>
+            <field name="arch" type="xml">
+                <search string="Search Report Models">
+                    <filter name="status"/>
+                    <filter name="description"/>
+                    <group expand="0" string="Group By">
+                        <filter name="status" domain="[]" context="{'group_by': 'status'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="qc_model_report_list_view" model="ir.ui.view">
+            <field name="name">qc.model.report.list</field>
+            <field name="model">qc.model.report</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="id"/>
+                    <field name="status"/>
+                    <field name="description"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="qc_model_report_form_view" model="ir.ui.view">
+            <field name="name">qc.model.report.form</field>
+            <field name="model">qc.model.report</field>
+            <field name="arch" type="xml">
+                <form create="false">
+                    <header>
+                        <button name="button_draft" string="Set to Draft" type="object" data-hotkey="a"
+                                modifiers="{'invisible': ['|',('status','in',('1')),('is_valid','=',True)]}"/>
+                        <button name="button_validate" string="Set to Validate" type="object" data-hotkey="i"
+                                modifiers="{'invisible': ['|',('status','in',('2')),('is_valid','=',True)]}"/>
+                        <field name="status" widget="statusbar" statusbar_visible="1,2" readonly="1"/>
+                         <field name="is_valid"  invisible="1"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="description" required="True" modifiers="{'readonly': [('status','in',('2'))]}"/>
+                        </group>
+                        <notebook>
+                            <page string="Documents ">
+                                 <field name="document_ids" modifiers="{'readonly': [('status','in',('2'))]}">
+                                    <list string="Documents" editable="bottom" >
+                                         <field name="status"  invisible="1"/>
+                                        <field name="ref_document" modifiers="{'readonly': [('status','in',('2'))]}"/>
+                                        <field name="date_document" modifiers="{'readonly': [('status','in',('2'))]}"/>
+                                        <field name="file" filename="file_name"  modifiers="{'readonly': [('status','in',('2'))]}"/>
+                                        <field name="file_name"  invisible="1" force_save="1" readonly="0"/>
+                                    </list>
+                                 </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+              </form>
+            </field>
+        </record>
+    </data>
+</odoo>

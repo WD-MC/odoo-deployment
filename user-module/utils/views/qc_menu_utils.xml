@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <menuitem name="Utils" id="utils_menu_root" web_icon="utils,static/description/icon.png"  groups="utils.group_utils"/>
+       <!-- <menuitem name="Ecowas" id="qc_ecowas_menu" action="qc_ecowas_action" parent="utils_menu_root"/>
+        <menuitem name="Heading" id="qc_heading_menu" action="qc_heading_action" parent="utils_menu_root" />
+        <menuitem name="Currencies management" id="qc_currency_menu" action="qc_currency_action" parent="utils_menu_root"
+         groups="utils.group_exchange_rate_initiator,utils.group_exchange_rate_approve"
+        />-->
+        <!--<menuitem name="QC Counter" id="qc_utils_counter_menu" action="qc_utils_counter_action" parent="utils_menu_root" />
+
+        <menuitem name="Unit management" id="qc_unit_menu" action="qc_unit_action" parent="utils_menu_root" />
+-->
+    </data>
+</odoo>

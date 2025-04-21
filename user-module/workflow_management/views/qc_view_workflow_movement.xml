@@ -1,0 +1,135 @@
+<odoo>
+    <data>
+        <!-- explicit  view definition -->
+
+        <record id="view_movement_list_view" model="ir.ui.view">
+            <field name="name">qc.movement.list</field>
+            <field name="model">qc.movement</field>
+            <field name="arch" type="xml">
+                <list   editable="bottom" create="false" delete="false">
+
+                       <field name="create_uid" string="Username" readonly="True" />
+<!--
+                       <field name="fullname" string="Fullname" readonly="True" />
+-->
+                     <field name="job_transmitter_id" string="Source" readonly="True" />
+                     <field name="action_name"  readonly="True" />
+<!--                       <field name="final_status" readonly="True" />-->
+                     <field name="job_recipient_id" string="Destination" readonly="True" />
+                     <field name="comments"  readonly="True" />
+                     <field name="create_date" string="Date" readonly="True" />
+
+                </list>
+            </field>
+        </record>
+
+
+        <record id='submission_wizard_form' model='ir.ui.view'>
+            <field name='name'>Movement wizard form view</field>
+            <field name='model'>qc.movement.wizard</field>
+            <field name='arch' type='xml'>
+                <form string="Transmission">
+                    <sheet>
+                            <group string="Endorsement Section">
+                                <field name='transmitter_id' required="True"  invisible="True"/>
+                                <field name='job_transmitter_id' required="True"  invisible="True"/>
+                                <field name='stage_id' required="True"  readonly="True"/>
+                                <field name='stage_id' invisible="True"/>
+                                <field name='action_domain' invisible="True"/>
+                                <field name='action_name' required="True" domain="action_domain" />
+<!--                                <field name="final_status" required="False" />-->
+                                <field name='comments' required="True"/>
+                                <field name='next_stage_id' required="True"  invisible="True"/>
+                                <field name='recipient_id' required="True"  invisible="True"/>
+                                <field name='job_recipient_id' required="True"  invisible="True"/>
+                            </group>
+
+                            <!--<group  attrs="{'invisible': [('stage_code', 'not in', ['10001','20001'])]}" string="Risk Acceptance Term">
+                                <field name="qc_acceptance_term"  nolabel="1"    context="{'list_view_ref':'view_qc_acceptance_term_transient_list_view'}"/>
+                                 <field name='stage_code' attrs="{'invisible':True}"/>
+                            </group>-->
+                   </sheet>
+                    <footer>
+                        <button string='Ok' type='object' name='add_qc_movement'
+                                class='btn-primary'/>
+                        <button string='Cancel' class='btn-default' special='cancel'/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id='cancel_submission_wizard_form' model='ir.ui.view'>
+            <field name='name'>Movement wizard form view</field>
+            <field name='model'>qc.movement.wizard</field>
+            <field name='arch' type='xml'>
+                <form string="Cancel Transmission">
+                    <sheet>
+                        <group>
+                            <field name='reason_for_cancelled' required="True"/>
+                        </group>
+
+                    </sheet>
+                    <footer>
+                        <button string='Ok' type='object' name='reset_qc_movement' class='btn-primary'/>
+                        <button string='Cancel' class='btn-default' special='cancel'/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+         <record id='return_submission_wizard_form' model='ir.ui.view'>
+            <field name='name'>Movement wizard form view</field>
+            <field name='model'>qc.movement.wizard</field>
+            <field name='arch' type='xml'>
+                <form string="Return Transmission">
+                    <sheet>
+                        <group>
+                                 <field name='transmitter_id' required="True"/>
+                                 <field name='job_transmitter_id' required="True"/>
+                                 <field name="final_status" required="False" />
+                                 <field name='comments' required="True"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button string='Ok' type='object' name='return_qc_movement' class='btn-primary'/>
+                        <button string='Cancel' class='btn-default' special='cancel'/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="action_qc_movement_submit">
+            <field name="name">Submit action</field>
+            <field name="res_model">qc.movement.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="submission_wizard_form"/>
+            <field name="context">{
+                                  }
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_qc_movement_cancel">
+            <field name="name">Reset action</field>
+            <field name="res_model">qc.movement.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="cancel_submission_wizard_form"/>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_qc_movement_return">
+            <field name="name">Return action</field>
+            <field name="res_model">qc.movement.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="return_submission_wizard_form"/>
+            <field name="context">{
+                }
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <menuitem id="menu_root"
+        name="Gestion des enregistrements"
+        web_icon="module_enregistrement,static/description/icon.png"
+        active="True"
+        sequence="20000"
+        groups="module_enregistrement.group_me_initiator,module_enregistrement.group_me_reviewer,module_enregistrement.group_me_approuver,module_enregistrement.group_me_auditor,module_enregistrement.group_me_administrator"
+        >
+
+         <menuitem id="menu_main_enregisrement"
+            name="Enregistrements"
+            sequence="1"
+            groups="module_enregistrement.group_me_initiator,module_enregistrement.group_me_reviewer,module_enregistrement.group_me_approuver,module_enregistrement.group_me_auditor"
+         >
+             <menuitem id="menu_list_enregistrement"
+                    name="Liste des enregistrements"
+                    sequence="10"
+                    action="module_enregistrement.action_enregistrement_list"
+                    groups="module_enregistrement.group_me_initiator,module_enregistrement.group_me_reviewer,module_enregistrement.group_me_approuver,module_enregistrement.group_me_auditor"
+
+             />
+
+             <menuitem id="menu_new_enregistrement"
+                    name="Nouvel enregistrement"
+                    sequence="11"
+                    action="module_enregistrement.action_enregistrement_new"
+                    groups="module_enregistrement.group_me_initiator"
+             />
+         </menuitem>
+
+        <menuitem id="menu_main_configuration"
+            name="Configurations"
+            sequence="2"
+            groups="module_enregistrement.group_me_auditor,module_enregistrement.group_me_administrator"
+         >
+
+         </menuitem>
+
+    </menuitem>
+
+</odoo>

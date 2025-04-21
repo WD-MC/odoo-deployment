@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_me_initiator_1,Initiation Enregistrement,model_me_enregistrement,module_enregistrement.group_me_initiator,1,1,1,1
+access_me_reviewer_1,Révision Enregistrement,model_me_enregistrement,module_enregistrement.group_me_reviewer,1,1,0,0
+access_me_approuver_1,Approbation Enregistrement,model_me_enregistrement,module_enregistrement.group_me_approuver,1,1,0,0
+access_me_auditor_1,Audit Enregistrement,model_me_enregistrement,module_enregistrement.group_me_auditor,1,0,0,0
+access_me_administrator_1,Administration Enregistrement,model_me_enregistrement,module_enregistrement.group_me_administrator,1,0,0,0
+access_document_enregistrement_1,Documents,model_document_enregistrement,,1,1,1,1
+
+access_me_portail_user_1,Portail user Enregistrement,model_me_enregistrement,module_enregistrement.group_portal_user,1,1,1,1
