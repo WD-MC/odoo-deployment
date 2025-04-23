@@ -9,7 +9,9 @@ spec:
   - name: http
     port: 80
     targetPort: 8069
+    nodePort: 30080  
   - name: longpolling
     port: 8072
     targetPort: 8072
+    nodePort: 31565  
   type: NodePort

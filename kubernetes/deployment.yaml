@@ -18,6 +18,8 @@ spec:
       - name: odoo
         image: odoo-pregodi:latest
         imagePullPolicy: IfNotPresent
+        command: ["odoo"]
+        args: ["--init=base", "-c", "/etc/odoo/odoo.conf"]
         ports:
         - containerPort: 8069
           name: odoo

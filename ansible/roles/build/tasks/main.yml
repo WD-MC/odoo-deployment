@@ -3,14 +3,14 @@
 # tasks file for build
 - name: Create kubernetes directory
   file:
-    path: /home/{{ ansible_user }}/kubernetes
+    path: /tmp/{{ ansible_user }}/kubernetes
     state: directory
     mode: '0755'
 
 - name: Copy Kubernetes manifests
   copy:
-    src: "{{ playbook_dir }}/../../kubernetes/{{ item }}"
-    dest: "/home/{{ ansible_user }}/kubernetes/"
+    src: "/var/lib/jenkins/workspace/Odoo_deployment/kubernetes/{{ item }}"
+    dest: "/tmp/{{ ansible_user }}/kubernetes/"
     mode: '0644'
   with_items:
     - deployment.yaml
@@ -21,22 +21,22 @@
     - configmap.yaml
 
 - name: Apply storage resources
-  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/pvc.yaml
+  shell: kubectl apply -f /tmp/{{ ansible_user }}/kubernetes/pvc.yaml
   register: pvc_result
   changed_when: pvc_result.rc == 0
 
 - name: Apply ConfigMap
-  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/configmap.yaml
+  shell: kubectl apply -f /tmp/{{ ansible_user }}/kubernetes/configmap.yaml
   register: cm_result
   changed_when: cm_result.rc == 0
 
 - name: Apply secrets
-  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/secrets.yaml
+  shell: kubectl apply -f /tmp/{{ ansible_user }}/kubernetes/secrets.yaml
   register: secrets_result
   changed_when: secrets_result.rc == 0
 
 - name: Deploy PostgreSQL
-  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/postgres.yaml
+  shell: kubectl apply -f /tmp/{{ ansible_user }}/kubernetes/postgres.yaml
   register: pg_result
   changed_when: pg_result.rc == 0
 
@@ -46,12 +46,12 @@
   changed_when: pg_wait_result.rc == 0
 
 - name: Deploy Odoo
-  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/deployment.yaml
+  shell: kubectl apply -f /tmp/{{ ansible_user }}/kubernetes/deployment.yaml
   register: odoo_result
   changed_when: odoo_result.rc == 0
 
 - name: Apply Odoo service
-  shell: kubectl apply -f /home/{{ ansible_user }}/kubernetes/service.yaml
+  shell: kubectl apply -f /tmp/{{ ansible_user }}/kubernetes/service.yaml
   register: svc_result
   changed_when: svc_result.rc == 0
 
@@ -59,6 +59,32 @@
   shell: kubectl get svc odoo-service -o jsonpath='{.spec.ports[0].nodePort}'
   register: nodeport
 
-- name: Show access URL
-  debug:
-    msg: "Odoo est accessible à l'adresse http://{{ ansible_host }}:{{ nodeport.stdout }}"
+#- name: Configure iptables for port forwarding
+  #become: yes
+  #iptables:
+    #table: nat
+    #chain: PREROUTING
+    #protocol: tcp
+    #destination_port: 80
+    #jump: DNAT
+    #to_destination: "192.168.58.2:30080"
+    #comment: "Forward Odoo traffic to Minikube"
+  #when: ansible_os_family == "Debian"
+
+#- name: Enable IP forwarding
+  #become: yes
+  #sysctl:
+    #name: net.ipv4.ip_forward
+    #value: 1
+    #state: present
+    #reload: yes
+
+#- name: Save iptables rules
+  #become: yes
+  #shell: "iptables-save > /etc/iptables/rules.v4"
+  #args:
+    #creates: /etc/iptables/rules.v4
+  #when: ansible_os_family == "Debian"
+#- name: Show access URL
+  #debug:
+    #msg: "Odoo est accessible à l'adresse http://{{ ansible_host }}:{{ nodeport.stdout }}"

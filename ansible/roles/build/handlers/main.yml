@@ -2,5 +2,5 @@
 ---
 # handlers file for build
 - name: restart minikube
-  shell: minikube stop && minikube start
+  shell: minikube stop && minikube start --driver=docker
   listen: "restart minikube"
