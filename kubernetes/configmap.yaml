@@ -14,3 +14,5 @@ data:
     db_password = odoo_password
     db_name = odoo
     list_db = True
+    dbfilter = .*
+    database.createdb = True

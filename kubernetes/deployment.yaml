@@ -17,9 +17,9 @@ spec:
       containers:
       - name: odoo
         image: odoo-pregodi:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Never
         command: ["odoo"]
-        args: ["--init=base", "-c", "/etc/odoo/odoo.conf"]
+        args: ["-i", "base", "-c", "/etc/odoo/odoo.conf"]
         ports:
         - containerPort: 8069
           name: odoo

@@ -1,6 +1,15 @@
 pipeline {
     agent any
     
+    environment {
+        SERVER_IP = '167.86.100.193'
+        SERVER_USER = 'michele'
+        SSH_CREDENTIALS_ID = 'pregodi-server-ssh'
+        REPO_URL = 'https://github.com/Opensys-Technologies/pregodi-backend.git'
+        BRANCH = 'feature/pregodi_deployment'
+        GIT_CREDENTIALS_ID = 'd09cd444-4ebd-40a1-8662-152de705af91'// ID de l'identifiant GitHub dans Jenkins
+    }
+    
     stages {
         stage('Clone') {
             steps {
@@ -8,21 +17,38 @@ pipeline {
             }
         }
         
-        stage('Build Docker Image') {
+        stage('Transfer and Build') {
             steps {
-                sh 'docker build -t odoo-pregodi:latest -f Dockerfile .'
-            }
-        }
-        
-        stage('Push to Minikube') {
-            steps {
-                sh 'eval $(minikube docker-env) && docker build -t odoo-pregodi:latest -f Dockerfile .'
+                withCredentials([usernamePassword(credentialsId: env.GIT_CREDENTIALS_ID, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
+                        sh """
+                        ssh -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 ${SERVER_USER}@${SERVER_IP} '
+                            rm -rf /tmp/pregodi-deployment &&
+                            mkdir -p /tmp/pregodi-deployment &&
+                            cd /tmp/pregodi-deployment &&
+                            git clone --branch ${BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Opensys-Technologies/pregodi-backend.git . &&
+                            docker build -t odoo-pregodi:latest -f Dockerfile .
+                        '
+                        """
+                        
+                        sh "scp -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 -r kubernetes ansible ${SERVER_USER}@${SERVER_IP}:/tmp/pregodi-deployment/"
+                    }
+                }
             }
         }
         
         stage('Deploy with Ansible') {
             steps {
-                sh 'ansible-playbook -v -i ansible/inventory.ini ansible/playbook.yml'
+                sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 ${SERVER_USER}@${SERVER_IP} '
+                        cd /tmp/pregodi-deployment &&
+                        echo "[servers]" > ansible/local_inventory.ini &&
+                        echo "localhost ansible_connection=local ansible_user=michele ansible_python_interpreter=/usr/bin/python3" >> ansible/local_inventory.ini &&
+                        ansible-playbook -i ansible/local_inventory.ini ansible/playbook.yml -v
+                    '
+                    """
+                }
             }
         }
     }
@@ -36,4 +62,3 @@ pipeline {
         }
     }
 }
-

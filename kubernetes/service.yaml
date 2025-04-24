@@ -7,11 +7,11 @@ spec:
     app: odoo-pregodi
   ports:
   - name: http
-    port: 80
+    port: 8069
     targetPort: 8069
-    nodePort: 30080  
+    nodePort: 30069  
   - name: longpolling
     port: 8072
     targetPort: 8072
-    nodePort: 31565  
+    nodePort: 30072  
   type: NodePort
