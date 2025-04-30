@@ -19,7 +19,7 @@ spec:
         image: odoo-pregodi:latest
         imagePullPolicy: Never
         command: ["odoo"]
-        args: ["-i", "base", "-c", "/etc/odoo/odoo.conf"]
+        args: ["-c", "/etc/odoo/odoo.conf"]
         ports:
         - containerPort: 8069
           name: odoo
@@ -40,8 +40,6 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: password
-        - name: DB_NAME
-          value: odoo
         volumeMounts:
         - name: odoo-data
           mountPath: /var/lib/odoo

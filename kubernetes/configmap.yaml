@@ -10,9 +10,8 @@ data:
     admin_passwd = admin_password
     db_host = postgres-service
     db_port = 5432
-    db_user = odoo
-    db_password = odoo_password
-    db_name = odoo
-    list_db = True
+    db_user = pregodi
+    db_password = pregodi@2025
     dbfilter = .*
     database.createdb = True
+    list_db = True

@@ -7,7 +7,7 @@ pipeline {
         SSH_CREDENTIALS_ID = 'pregodi-server-ssh'
         REPO_URL = 'https://github.com/Opensys-Technologies/pregodi-backend.git'
         BRANCH = 'feature/pregodi_deployment'
-        GIT_CREDENTIALS_ID = 'd09cd444-4ebd-40a1-8662-152de705af91'// ID de l'identifiant GitHub dans Jenkins
+        GIT_CREDENTIALS_ID = 'd09cd444-4ebd-40a1-8662-152de705af91'
     }
     
     stages {

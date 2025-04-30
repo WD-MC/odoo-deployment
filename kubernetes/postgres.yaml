@@ -21,7 +21,7 @@ spec:
         - containerPort: 5432
         env:
         - name: POSTGRES_DB
-          value: odoo
+          value: postgres
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
