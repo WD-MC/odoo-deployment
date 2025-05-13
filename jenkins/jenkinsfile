@@ -1,6 +1,20 @@
 pipeline {
     agent any
     
+    triggers {
+        GenericTrigger(
+            genericVariables: [
+                [key: 'ref', value: '$.ref'],
+                [key: 'commit', value: '$.after'],
+                [key: 'repository', value: '$.repository.name']
+            ],
+            causeString: 'Déclenché par un push de $commit sur $ref dans $repository',
+            token: 'pregodi-webhook-token',
+            regexpFilterText: '$ref',
+            regexpFilterExpression: 'refs/heads/(main|master|feature/pregodi_deployment)'
+        )
+    }
+    
     environment {
         SERVER_IP = '167.86.100.193'
         SERVER_USER = 'michele'
@@ -14,6 +28,19 @@ pipeline {
         stage('Clone') {
             steps {
                 checkout scm
+            }
+        }
+        
+        stage('Validate Kubernetes Files') {
+            steps {
+                sh '''
+                    kubectl --dry-run=client -f kubernetes/deployment.yaml
+                    kubectl --dry-run=client -f kubernetes/service.yaml
+                    kubectl --dry-run=client -f kubernetes/postgres.yaml
+                    kubectl --dry-run=client -f kubernetes/pvc.yaml
+                    kubectl --dry-run=client -f kubernetes/configmap.yaml
+                    kubectl --dry-run=client -f kubernetes/secrets.yaml
+                '''
             }
         }
         
@@ -46,6 +73,20 @@ pipeline {
                         echo "[servers]" > ansible/local_inventory.ini &&
                         echo "localhost ansible_connection=local ansible_user=michele ansible_python_interpreter=/usr/bin/python3" >> ansible/local_inventory.ini &&
                         ansible-playbook -i ansible/local_inventory.ini ansible/playbook.yml -v
+                    '
+                    """
+                }
+            }
+        }
+        
+        stage('Verify Deployment') {
+            steps {
+                sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 ${SERVER_USER}@${SERVER_IP} '
+                        kubectl get pods -o wide
+                        kubectl get svc
+                        echo "Odoo accessible sur http://${SERVER_IP}:30069"
                     '
                     """
                 }
