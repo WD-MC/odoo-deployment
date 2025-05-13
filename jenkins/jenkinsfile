@@ -36,10 +36,8 @@ pipeline {
         stage('Push to Registry') {
             steps {
                 script {
-                    docker.withRegistry("http://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS_ID}") {
-                        sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
-                        sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
-                    }
+                    sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
                 }
             }
         }
