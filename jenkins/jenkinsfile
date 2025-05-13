@@ -5,6 +5,7 @@ pipeline {
         DOCKER_REGISTRY = "51.254.157.210:5000/"  // Remplacer par votre registre
         IMAGE_NAME = "odoo-pregodi"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
+        LOCAL_IMAGE_NAME = "odoo-pregodi-local"
         DOCKER_CREDENTIALS_ID = "docker-registry-credentials"  // ID des credentials Jenkins pour le registre
         SSH_CREDENTIALS_ID = "ansible-ssh-key"  // ID des credentials SSH pour Ansible
     }
@@ -16,10 +17,18 @@ pipeline {
             }
         }
         
-        stage('Build Docker Image') {
+        stage('Build Docker Image Locally') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest -f Dockerfile ."
+                    // Build d'abord l'image localement avec un nom temporaire
+                    sh "docker build -t ${LOCAL_IMAGE_NAME}:${IMAGE_TAG} -f Dockerfile ."
+                    
+                    // Test local de l'image si nécessaire (optionnel)
+                    sh "docker inspect ${LOCAL_IMAGE_NAME}:${IMAGE_TAG}"
+                    
+                    // Tagger l'image avec le nom du registre distant
+                    sh "docker tag ${LOCAL_IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker tag ${LOCAL_IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
                 }
             }
         }
@@ -42,6 +51,11 @@ pipeline {
                     sh """
                     sed -i 's|image: odoo-pregodi:latest|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}|g' kubernetes/deployment.yaml
                     sed -i 's|imagePullPolicy: Never|imagePullPolicy: Always|g' kubernetes/deployment.yaml
+                    
+                    # S'assurer que imagePullSecrets est présent
+                    if ! grep -q "imagePullSecrets" kubernetes/deployment.yaml; then
+                      sed -i '/volumes:/i\\      imagePullSecrets:\\      - name: regcred' kubernetes/deployment.yaml
+                    fi
                     """
                 }
             }
@@ -60,6 +74,10 @@ pipeline {
     
     post {
         always {
+            script {
+                // Nettoyage des images locales temporaires
+                sh "docker rmi ${LOCAL_IMAGE_NAME}:${IMAGE_TAG} || true"
+            }
             cleanWs()
         }
         success {
