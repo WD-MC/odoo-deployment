@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_REGISTRY = "http://51.254.157.210:5000"  // Remplacer par votre registre
+        DOCKER_REGISTRY = "51.254.157.210:5000/"  // Remplacer par votre registre
         IMAGE_NAME = "odoo-pregodi"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         LOCAL_IMAGE_NAME = "odoo-pregodi-local"
