@@ -1,105 +1,72 @@
 pipeline {
     agent any
     
-    triggers {
-        GenericTrigger(
-            genericVariables: [
-                [key: 'ref', value: '$.ref'],
-                [key: 'commit', value: '$.after'],
-                [key: 'repository', value: '$.repository.name']
-            ],
-            causeString: 'Déclenché par un push de $commit sur $ref dans $repository',
-            token: 'pregodi-webhook-token',
-            regexpFilterText: '$ref',
-            regexpFilterExpression: 'refs/heads/(main|master|feature/pregodi_deployment)'
-        )
-    }
-    
     environment {
-        SERVER_IP = '167.86.100.193'
-        SERVER_USER = 'michele'
-        SSH_CREDENTIALS_ID = 'pregodi-server-ssh'
-        REPO_URL = 'https://github.com/Opensys-Technologies/pregodi-backend.git'
-        BRANCH = 'feature/pregodi_deployment'
-        GIT_CREDENTIALS_ID = 'd09cd444-4ebd-40a1-8662-152de705af91'
+        DOCKER_REGISTRY = "51.254.157.210:5000/"  // Remplacer par votre registre
+        IMAGE_NAME = "odoo-pregodi"
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
+        DOCKER_CREDENTIALS_ID = "docker-registry-credentials"  // ID des credentials Jenkins pour le registre
+        SSH_CREDENTIALS_ID = "ansible-ssh-key"  // ID des credentials SSH pour Ansible
     }
     
     stages {
-        stage('Clone') {
+        stage('Checkout') {
             steps {
                 checkout scm
             }
         }
         
-        stage('Validate Kubernetes Files') {
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                    kubectl --dry-run=client -f kubernetes/deployment.yaml
-                    kubectl --dry-run=client -f kubernetes/service.yaml
-                    kubectl --dry-run=client -f kubernetes/postgres.yaml
-                    kubectl --dry-run=client -f kubernetes/pvc.yaml
-                    kubectl --dry-run=client -f kubernetes/configmap.yaml
-                    kubectl --dry-run=client -f kubernetes/secrets.yaml
-                '''
+                script {
+                    sh "docker build -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest -f Dockerfile ."
+                }
             }
         }
         
-        stage('Transfer and Build') {
+        stage('Push to Registry') {
             steps {
-                withCredentials([usernamePassword(credentialsId: env.GIT_CREDENTIALS_ID, passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                    sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
-                        sh """
-                        ssh -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 ${SERVER_USER}@${SERVER_IP} '
-                            rm -rf /tmp/pregodi-deployment &&
-                            mkdir -p /tmp/pregodi-deployment &&
-                            cd /tmp/pregodi-deployment &&
-                            git clone --branch ${BRANCH} https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Opensys-Technologies/pregodi-backend.git . &&
-                            docker build -t odoo-pregodi:latest -f Dockerfile .
-                        '
-                        """
-                        
-                        sh "scp -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 -r kubernetes ansible ${SERVER_USER}@${SERVER_IP}:/tmp/pregodi-deployment/"
+                script {
+                    docker.withRegistry("http://${DOCKER_REGISTRY}", "${DOCKER_CREDENTIALS_ID}") {
+                        sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
+                        sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
                     }
+                }
+            }
+        }
+        
+        /*stage('Update Kubernetes Manifests') {
+            steps {
+                script {
+                    // Mettre à jour le fichier deployment.yaml avec la nouvelle image
+                    sh """
+                    sed -i 's|image: odoo-pregodi:latest|image: ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}|g' kubernetes/deployment.yaml
+                    sed -i 's|imagePullPolicy: Never|imagePullPolicy: Always|g' kubernetes/deployment.yaml
+                    """
                 }
             }
         }
         
         stage('Deploy with Ansible') {
             steps {
-                sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
+                withCredentials([sshUserPrivateKey(credentialsId: "${SSH_CREDENTIALS_ID}", keyFileVariable: 'SSH_KEY')]) {
                     sh """
-                    ssh -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 ${SERVER_USER}@${SERVER_IP} '
-                        cd /tmp/pregodi-deployment &&
-                        echo "[servers]" > ansible/local_inventory.ini &&
-                        echo "localhost ansible_connection=local ansible_user=michele ansible_python_interpreter=/usr/bin/python3" >> ansible/local_inventory.ini &&
-                        ansible-playbook -i ansible/local_inventory.ini ansible/playbook.yml -v
-                    '
+                    ansible-playbook -i inventory.ini playbook.yml --private-key=${SSH_KEY} -e "docker_registry=${DOCKER_REGISTRY}" -e "image_tag=${IMAGE_TAG}"
                     """
                 }
             }
-        }
-        
-        stage('Verify Deployment') {
-            steps {
-                sshagent(credentials: [env.SSH_CREDENTIALS_ID]) {
-                    sh """
-                    ssh -o StrictHostKeyChecking=no -o TCPKeepAlive=yes -o ServerAliveInterval=30 ${SERVER_USER}@${SERVER_IP} '
-                        kubectl get pods -o wide
-                        kubectl get svc
-                        echo "Odoo accessible sur http://${SERVER_IP}:30069"
-                    '
-                    """
-                }
-            }
-        }
+        }*/
     }
     
     post {
+        always {
+            cleanWs()
+        }
         success {
-            echo 'Déploiement réussi!'
+            echo "Deployment successful!"
         }
         failure {
-            echo 'Échec du déploiement!'
+            echo "Deployment failed!"
         }
     }
 }
