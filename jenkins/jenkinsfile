@@ -73,13 +73,13 @@ pipeline {
     }
     
     post {
-        always {
+        /*always {
             script {
                 // Nettoyage des images locales temporaires
                 sh "docker rmi ${LOCAL_IMAGE_NAME}:${IMAGE_TAG} || true"
             }
             cleanWs()
-        }
+        }*/
         success {
             echo "Deployment successful!"
         }
