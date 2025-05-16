@@ -7,10 +7,10 @@ pipeline {
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         LOCAL_IMAGE_NAME = "odoo-pregodi-local"
         SSH_CREDENTIALS_ID = "ansible-ssh-key"  // ID des credentials SSH pour Ansible
-    }
+    }*/
     
     stages {
-        stage('Checkout') {
+        /*stage('Checkout') {
             steps {
                 checkout scm
             }
