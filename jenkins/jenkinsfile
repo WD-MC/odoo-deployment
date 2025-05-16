@@ -1,12 +1,11 @@
 pipeline {
     agent any
     
-    environment {
-        DOCKER_REGISTRY = "51.254.157.210:5000"  // Remplacer par votre registre
+    /*environment {
+        DOCKER_REGISTRY = "51.254.157.210:5000"
         IMAGE_NAME = "odoo-pregodi"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         LOCAL_IMAGE_NAME = "odoo-pregodi-local"
-        DOCKER_CREDENTIALS_ID = "docker-registry-credentials"  // ID des credentials Jenkins pour le registre
         SSH_CREDENTIALS_ID = "ansible-ssh-key"  // ID des credentials SSH pour Ansible
     }
     
@@ -38,6 +37,14 @@ pipeline {
                 script {
                     sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
                     sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
+                }
+            }
+        }*/
+
+        stage('🔍 Vérification que l\'image a bien été poussée...') {
+            steps {
+                script {
+                    checkDockerImage("51.254.157.210:5000", "odoo-pregodi", ["${IMAGE_TAG}", "latest"])
                 }
             }
         }
