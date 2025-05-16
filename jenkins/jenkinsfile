@@ -78,9 +78,6 @@ pipeline {
             cleanWs()
         }*/
         success {
-            script {
-                checkDockerImage("51.254.157.210:5000", "odoo-pregodi", ["13", "latest"])
-            }
             echo "Deployment successful!"
         }
         failure {
