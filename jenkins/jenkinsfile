@@ -1,16 +1,16 @@
 pipeline {
     agent any
     
-    /*environment {
+    environment {
         DOCKER_REGISTRY = "51.254.157.210:5000"
         IMAGE_NAME = "odoo-pregodi"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         LOCAL_IMAGE_NAME = "odoo-pregodi-local"
         SSH_CREDENTIALS_ID = "ansible-ssh-key"  // ID des credentials SSH pour Ansible
-    }*/
+    }
     
     stages {
-        /*stage('Checkout') {
+        stage('Checkout') {
             steps {
                 checkout scm
             }
@@ -39,7 +39,7 @@ pipeline {
                     sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
                 }
             }
-        }*/
+        }
 
         stage('🔍 Vérification que l\'image a bien été poussée...') {
             steps {
